@@ -19,7 +19,7 @@ payload = {
 }
 
 response = httpx.post(
-    f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={os.getenv('GEMINI_API_KEY')}",
+    f"https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={os.getenv('GEMINI_API_KEY')}",
     headers={"Content-Type": "application/json"},
     json=payload
 )
