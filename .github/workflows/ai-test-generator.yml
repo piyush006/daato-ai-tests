@@ -38,9 +38,9 @@ jobs:
           python scripts/generate_test.py "${{ github.event.inputs.url }}" "${{ github.event.inputs.username }}" "${{ github.event.inputs.password }}" "${{ github.event.inputs.scenario }}"
 
       - name: Commit and Push Code
-        run: |
-          git config user.name "ai-bot"
-          git config user.email "ai-bot@bot.com"
-          git add src/test/java/tests/GeneratedTest.java
-          git commit -m "🤖 Generated test from Gemini"
-          git push
+  run: |
+    git config user.name "ai-bot"
+    git config user.email "ai-bot@bot.com"
+    git add src/test/java/tests/GeneratedTest.java
+    git commit -m "🤖 Generated test from Gemini"
+    git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
