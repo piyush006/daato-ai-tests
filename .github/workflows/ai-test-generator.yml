@@ -35,7 +35,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python scripts/generate_test.py "${{ github.event.inputs.url }}" "${{ github.event.inputs.username }}" "${{ github.event.inputs.password }}" "${{ github.event.inputs.scenario }}"
+          python scripts/extract_dom.py "${{ github.event.inputs.url }}" "${{ github.event.inputs.username }}" "${{ github.event.inputs.password }}" "${{ github.event.inputs.scenario }}"
 
       - name: Commit and Push Code
         run: |
