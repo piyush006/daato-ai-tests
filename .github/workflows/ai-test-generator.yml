@@ -28,19 +28,32 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install httpx
-        run: pip install httpx
+      - name: Install dependencies
+        run: |
+          pip install httpx selenium
 
-      - name: Generate Selenium Code
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - name: Install Chrome and ChromeDriver
+        run: |
+          sudo apt update
+          sudo apt install -y chromium-browser chromium-chromedriver
+          sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
+
+      - name: Extract DOM using Selenium
         run: |
           python scripts/extract_dom.py "${{ github.event.inputs.url }}" "${{ github.event.inputs.username }}" "${{ github.event.inputs.password }}" "${{ github.event.inputs.scenario }}"
 
+      - name: Generate Selenium Code with Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python scripts/generate_test.py element_dump.json
+
       - name: Commit and Push Code
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "ai-bot"
           git config user.email "ai-bot@bot.com"
           git add src/test/java/tests/GeneratedTest.java
-          git commit -m "🤖 Generated test from Gemini"
+          git commit -m "🤖 Generated test from Gemini" || echo "No changes to commit"
           git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:main
