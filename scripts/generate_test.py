@@ -18,8 +18,10 @@ payload = {
     "contents": [{"parts": [{"text": prompt}]}]
 }
 
+api_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+
 response = httpx.post(
-    f"https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={os.getenv('GEMINI_API_KEY')}",
+    f"{api_url}?key={os.getenv('GEMINI_API_KEY')}",
     headers={"Content-Type": "application/json"},
     json=payload
 )
