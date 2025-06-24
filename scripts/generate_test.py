@@ -23,7 +23,8 @@ api_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-fl
 response = httpx.post(
     f"{api_url}?key={os.getenv('GEMINI_API_KEY')}",
     headers={"Content-Type": "application/json"},
-    json=payload
+    json=payload,
+    timeout=60  # Increase timeout to 60 seconds
 )
 
 try:
